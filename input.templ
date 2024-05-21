@@ -1,0 +1,97 @@
+package components
+
+type InputProps struct {
+	Id          string
+	Type        string
+	Name        string
+	Placeholder string
+	HelperText  string
+	Class       string
+	Value       string
+	Model       string
+	AutoFocus   bool
+	HideLabel   bool
+	Required    bool
+	IsDisabled  bool
+	// HTMX options:
+	HXPost      string
+	HXTrigger   string
+	HXTarget    string
+	HXSwap      string
+	HXIndicator string
+}
+
+/**
+* Text Input Component.
+* ======================
+* This is a input component that can be used to create text inputs.
+*
+* @params InputProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+* @components.Input(components.InputProps{
+*   Type: "text",
+*   Name: "First Name",
+*   Placeholder: "Enter your name",
+*   Class: "max-w-6xl",
+*   HideLabel: true,
+* })
+ */
+
+templ Input(props InputProps) {
+	<label
+		class="relative flex flex-col w-full space-y-2"
+	>
+		<div class="flex flex-row items-center w-full space-x-4">
+			if !props.HideLabel {
+				<div class="flex flex-row items-center space-x-2">
+					if props.Required {
+						<div class="w-1 h-4 border border-red-500 bg-gradient-to-br from-red-400 rounded-xl"></div>
+					}
+					<strong class="capitalize">{ props.Name }</strong>
+				</div>
+			}
+		</div>
+		<input
+			if props.IsDisabled {
+				disabled
+			}
+			if props.Required {
+				required
+			}
+			if props.AutoFocus {
+				autofocus
+			}
+			class={ "w-full focus:outline-none focus-visible:outline-none px-3 py-2 text-base dark:text-white dark:ring-slate-500 bg-white dark:bg-black dark:border-slate-900 border rounded-md peer border-neutral-300 ring-offset-background placeholder:text-slate-400 text-slate-700 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 " + props.Class }
+			type={ props.Type }
+			id={ props.Id }
+			name={ props.Name }
+			placeholder={ props.Placeholder }
+			if props.Model != "" {
+				x-model={ props.Model }
+			}
+			if props.HXPost != "" {
+				hx-post={ props.HXPost }
+			}
+			if props.HXTrigger != "" {
+				hx-trigger={ props.HXTrigger }
+			}
+			if props.HXTarget != "" {
+				hx-target={ props.HXTarget }
+			}
+			if props.HXSwap != "" {
+				hx-swap={ props.HXSwap }
+			}
+			if props.HXIndicator != "" {
+				hx-indicator={ props.HXIndicator }
+			}
+		/>
+		if props.HelperText != "" {
+			<p class="w-full mt-1 text-xs text-slate-400">
+				{ props.HelperText }
+			</p>
+		}
+	</label>
+}

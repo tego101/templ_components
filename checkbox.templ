@@ -1,0 +1,78 @@
+package components
+
+type CheckBoxProps struct {
+	Id         string
+	Name       string
+	Label      string
+	Checked    bool
+	IsDisabled bool
+	IsRequired bool
+	ClassName  string
+}
+
+/**
+* CheckBox Component.
+*
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+* =====================
+* This component renders a checkbox input element with an associated label.
+*
+* @params CheckBoxProps
+* @property {string} Id - The ID for the checkbox input element.
+* @property {string} Name - The name attribute for the checkbox input element.
+* @property {string} Label - The text label displayed next to the checkbox.
+* @property {bool} Checked - Determines if the checkbox is checked by default.
+* @property {bool} IsDisabled - Determines if the checkbox is disabled.
+* @property {bool} IsRequired - Determines if the checkbox is required.
+* @property {string} ClassName - Additional CSS classes to apply to the checkbox.
+*
+* Usage:
+*
+* Default CheckBox:
+* @components.CheckBox(components.CheckBoxProps{
+*     Id: "default-checkbox",
+*     Name: "defaultCheckbox",
+*     Label: "Default CheckBox",
+*     Checked: false,
+*     IsDisabled: false,
+*     IsRequired: false,
+*     ClassName: "custom-class",
+* })
+*
+* Checked and Disabled CheckBox:
+* @components.CheckBox(components.CheckBoxProps{
+*     Id: "checked-disabled-checkbox",
+*     Name: "checkedDisabledCheckbox",
+*     Label: "Checked and Disabled CheckBox",
+*     Checked: true,
+*     IsDisabled: true,
+*     IsRequired: false,
+*     ClassName: "custom-class",
+* })
+ */
+
+templ CheckBox(props CheckBoxProps) {
+	<div class="form-control">
+		<label class="cursor-pointer label">
+			<span class="label-text dark:text-slate-100">
+				{ props.Label }
+			</span>
+			<input
+				type="checkbox"
+				id={ props.Id }
+				class={ props.ClassName + " checkbox" }
+				name={ props.Name }
+				if props.Checked {
+					checked
+				}
+				if props.IsDisabled {
+					disabled
+				}
+				if props.IsRequired {
+					required
+				}
+			/>
+		</label>
+	</div>
+}

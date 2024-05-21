@@ -1,0 +1,187 @@
+package components
+
+type AlertProps struct {
+	Title   string
+	Variant string
+	Message string
+}
+
+/**
+* Alert Component.
+*
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+* =====================
+* This component is a simple alert component that can be used to display alerts on the page.
+*
+* @params AlertProps
+* @param {string} Title - The title of the alert.
+* @param {string} Variant - The variant of the alert. Can be "success", "info", or "danger".
+* @param {string} Message - The message of the alert.
+*
+* @example
+* @components.Alert(components.AlertProps{
+*	Title: "Success",
+*	Variant: "success",
+*	Message: "This is a success alert.",
+* })
+*
+ */
+
+templ Alert(props AlertProps) {
+	switch props.Variant {
+		case "success":
+			<div
+				role="alert"
+				data-dismissible="alert"
+				class="relative flex w-full max-w-screen-md px-4 py-4 text-base text-white bg-green-500 rounded-lg font-regular"
+			>
+				<div class="shrink-0">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+						<path
+							fill-rule="evenodd"
+							d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+							clip-rule="evenodd"
+						></path>
+					</svg>
+				</div>
+				<div class="ml-3 mr-12">
+					<h5 class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-white capitalize">
+						if props.Title != "" {
+							{ props.Title }
+						} else {
+							Success
+						}
+					</h5>
+					<p class="block mt-2 font-sans text-base antialiased font-normal leading-relaxed text-white">
+						{ props.Message }
+					</p>
+				</div>
+				<button
+					data-dismissible-target="alert"
+					class="!absolute top-3 right-3 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all hover:bg-white/10 active:bg-white/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+					type="button"
+				>
+					<span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							class="w-6 h-6"
+							stroke-width="2"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					</span>
+				</button>
+			</div>
+		case "info":
+			<div
+				x-transition
+				x-transition:enter="transform ease-out duration-300 transition"
+				x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+				x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+				class="p-2 border-2 border-indigo-500 rounded-2xl"
+				role="alert"
+			>
+				if props.Title != "" {
+					<h1 class="font-bold text-indigo-500">{ props.Title }</h1>
+				}
+				if props.Title == "" {
+					<h1 class="font-bold text-indigo-500">Info</h1>
+				}
+				<p>{ props.Message }</p>
+			</div>
+		case "danger":
+			<div
+				role="alert"
+				data-dismissible="alert"
+				class="relative flex w-full max-w-screen-md px-4 py-4 text-base text-white bg-red-500 rounded-lg font-regular"
+			>
+				<div class="shrink-0">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+							clip-rule="evenodd"
+						></path>
+					</svg>
+				</div>
+				<div class="ml-3 mr-12">
+					<h5 class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-white capitalize">
+						if props.Title != "" {
+							{ props.Title }
+						} else {
+							Success
+						}
+					</h5>
+					<p class="block mt-2 font-sans text-base antialiased font-normal leading-relaxed text-white">
+						{ props.Message }
+					</p>
+				</div>
+				<button
+					data-dismissible-target="alert"
+					class="!absolute top-3 right-3 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all hover:bg-white/10 active:bg-white/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+					type="button"
+				>
+					<span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							class="w-6 h-6"
+							stroke-width="2"
+						>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					</span>
+				</button>
+			</div>
+		case "ghost":
+			<div
+				role="alert"
+				class="relative flex w-full px-4 py-4 text-base text-gray-900 rounded-lg dark:text-slate-100 font-regular bg-gray-900/10 dark:bg-slate-100/10"
+			>
+				<div class="mr-12 ">
+					<span>{ props.Message }</span>
+				</div>
+			</div>
+		case "simple":
+			<div role="alert" class="relative flex w-full px-4 py-4 text-base text-white bg-gray-900 rounded-lg font-regular">
+				<div class="mr-12 ">
+					{ props.Message }
+				</div>
+			</div>
+		case "warning":
+			<div role="alert" class="relative flex w-full px-4 py-4 text-base text-white rounded-lg bg-amber-500 font-regular">
+				<div class="mr-12 ">
+					{ props.Message }
+				</div>
+			</div>
+		default:
+			<div role="alert" class="relative flex w-full px-4 py-4 text-base text-white bg-gray-900 rounded-lg dark:text-gray-200 font-regular dark:bg-slate-100/10">
+				<div class="shrink-0">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+							clip-rule="evenodd"
+						></path>
+					</svg>
+				</div>
+				<div class="ml-3 mr-12"><p>{ props.Message }</p></div>
+			</div>
+	}
+}

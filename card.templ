@@ -1,0 +1,50 @@
+
+package components
+
+type CardProps struct {
+	Id          string
+	Name        string
+	Class       string
+	Icon        string
+	Title       string
+	Description string
+	Content     string
+}
+
+/**
+* Card Component.
+* This is a card component.
+*
+* @params CardProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+* @components.Card(components.CardProps{
+    * Id: "card-1",
+    * Name: "card-1",
+    * Class: "bg-blue-500",
+    * Icon: "icon",
+    * Title: "Card Title",
+    * Description: "Card Description",
+    * Content: "Card Content",
+* })
+*/
+
+templ Card(props CardProps) {
+	<div
+		id={ "card-" + UniqueKey() }
+		class={ props.Class + " relative w-full flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96" }
+	>
+		<div class="p-6">
+			if props.Title != "" {
+				<h5 class="block mb-2 font-sans text-xl antialiased font-bold leading-snug tracking-normal text-blue-gray-900">
+					@templ.Raw(props.Title)
+				</h5>
+			}
+			<div class="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
+				@templ.Raw(props.Content)
+			</div>
+		</div>
+	</div>
+}

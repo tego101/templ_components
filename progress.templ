@@ -1,0 +1,86 @@
+package components
+
+import (
+	"strconv"
+)
+
+type ProgressProps struct {
+	Key        string
+	Percentage int
+	Class      string
+	Variant    string
+}
+
+/**
+* Progress Components.
+* ======================
+* This is a set of progress bars.
+*
+* @params ProgressProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+*
+* 1. ProgressRound
+* @components.ProgressRound(ProgressRoundProps{
+*	Percentage: 50,
+*	Class: "w-20 h-20",
+* })
+*
+* 2. Progress
+* @components.Progress(ProgressProps{
+*	Key: "Progress",
+*	Percentage: 50,
+*	Class: "w-full h-4",
+*	Variant: "primary",
+* })
+*
+ */
+
+templ ProgressRound(props ProgressProps) {
+	<div
+		id={ "progress-round-" + components.UniqueKey() }
+		class={ props.Class + " bg-transparent transition-all duration-500 ease-in-out radial-progress text-slate-800 dark:text-slate-100" }
+		if props.Percentage > 0 {
+			style={ "--value:" + strconv.Itoa(props.Percentage) + ";" }
+		} else {
+			style="--value:0;"
+		}
+		role="progressbar"
+	>
+		{ strconv.Itoa(props.Percentage) }%
+	</div>
+}
+
+templ Progress(props ProgressProps) {
+	<progress
+		id={ "progress-" + props.Key }
+		class={ props.Class + " bg-slate-200 dark:bg-[#282828] w-full rounded-lg transition-all duration-500 ease-in-out" }
+		value={ strconv.FormatInt(int64(props.Percentage), 10) }
+		max="100"
+	>{ props.Key }</progress>
+	<style type="text/css">
+		#{ "progress-" + props.Key }::-webkit-progress-bar {
+			background-color: var(--color-slate-200);
+			border-radius: 20px;
+		}
+		#{ "progress-" + props.Key }::-webkit-progress-value {
+			background-color: var(--color-" + props.Variant + "-500);
+			border-radius: 20px;
+		}
+		#{ "progress-" + props.Key }::-moz-progress-bar {
+			background-color: var(--color-" + props.Variant + "-500);
+			border-radius: 20px;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			#{ "progress-" + props.Key }::-webkit-progress-value {
+				background-color: var(--color-dark-mode-" + props.Variant + "-500);
+			}
+			#{ "progress-" + props.Key }::-moz-progress-bar {
+				background-color: var(--color-dark-mode-" + props.Variant + "-500);
+			}
+		}
+	</style>
+}

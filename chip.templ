@@ -1,0 +1,117 @@
+package components
+
+type ChipProps struct {
+	Label     string
+	Icon      string
+	ClassName string
+	Variant   string
+}
+
+/**
+* Chip Component.
+*
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+* =====================
+* This component renders a chip element based on the provided properties.
+*
+* @params ChipProps
+* @property {string} Label - The label text displayed inside the chip.
+* @property {string} Icon - The icon displayed inside the chip.
+* @property {string} ClassName - Additional CSS classes to apply to the chip.
+* @property {string} Variant - The variant of the chip (filled, gradient, outlined, ghost, etc.).
+*
+* Usage:
+*
+* Filled Chip:
+* @components.Chip(components.ChipProps{
+*     Label: "Filled Chip",
+*     Icon: "🌟",
+*     ClassName: "custom-class",
+*     Variant: "filled",
+* })
+*
+* Gradient Chip:
+* @components.Chip(components.ChipProps{
+*     Label: "Gradient Chip",
+*     Icon: "🔥",
+*     ClassName: "custom-class",
+*     Variant: "gradient",
+* })
+*
+* Outlined Chip:
+* @components.Chip(components.ChipProps{
+*     Label: "Outlined Chip",
+*     Icon: "✏️",
+*     ClassName: "custom-class",
+*     Variant: "outlined",
+* })
+*
+* Ghost Chip:
+* @components.Chip(components.ChipProps{
+*     Label: "Ghost Chip",
+*     Icon: "👻",
+*     ClassName: "custom-class",
+*     Variant: "ghost",
+* })
+ */
+
+templ Chip(chip ChipProps) {
+	switch chip.Variant {
+		case "filled":
+			<div
+				class={ "relative grid select-none items-center whitespace-nowrap rounded-lg bg-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white" + chip.ClassName }
+			>
+				if chip.Icon != "" {
+					<span class="mr-1">
+						@templ.Raw(chip.Icon)
+					</span>
+				}
+				<span class="">{ chip.Label }</span>
+			</div>
+		case "gradient":
+			<div
+				class={ "relative grid select-none items-center whitespace-nowrap rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-1.5 px-3 font-sans text-xs font-bold uppercase text-white" + chip.ClassName }
+			>
+				if chip.Icon != "" {
+					<span class="mr-1">
+						@templ.Raw(chip.Icon)
+					</span>
+				}
+				<span class="">{ chip.Label }</span>
+			</div>
+		case "outlined":
+			<div
+				class={ "relative grid select-none items-center whitespace-nowrap rounded-lg border border-gray-900 py-1.5 px-3 font-sans text-xs font-bold uppercase text-gray-700" + chip.ClassName }
+			>
+				if chip.Icon != "" {
+					<span class="mr-1">
+						@templ.Raw(chip.Icon)
+					</span>
+				}
+				<span class="">{ chip.Label }</span>
+			</div>
+		case "ghost":
+			<div
+				class={ "relative grid select-none items-center whitespace-nowrap rounded-lg bg-transparent py-1.5 px-3 font-sans text-xs font-bold uppercase text-gray-700" + chip.ClassName }
+			>
+				if chip.Icon != "" {
+					<span class="mr-1">
+						@templ.Raw(chip.Icon)
+					</span>
+				}
+				<span class="">{ chip.Label }</span>
+			</div>
+		default:
+			<div
+				class={ "relative grid select-none items-center whitespace-nowrap rounded-lg bg-[#FAF7F5] dark:bg-slate-100 py-1.5 px-3 font-sans text-xs font-bold uppercase dark:text-slate-800" + chip.ClassName }
+			>
+				if chip.Icon != "" {
+					<span class="mr-1">
+						@templ.Raw(chip.Icon)
+					</span>
+				}
+				<span class="">{ chip.Label }</span>
+			</div>
+	}
+}

@@ -1,0 +1,146 @@
+package components
+
+import "sort"
+import "strconv"
+
+type TimeLineItem struct {
+	Value    string
+	Date     string
+	Complete bool
+}
+
+type TimelineProps struct {
+	Items []TimeLineItem
+}
+
+/**
+*   A helper to sort the timeline items by date.
+ */
+func orderByDate(items []TimeLineItem) []TimeLineItem {
+	sorted := make([]TimeLineItem, len(items))
+	copy(sorted, items)
+	sort.Slice(sorted, func(i, j int) bool {
+		iDate, _ := strconv.Atoi(sorted[i].Date)
+		jDate, _ := strconv.Atoi(sorted[j].Date)
+		return iDate < jDate
+	})
+	return sorted
+}
+
+/**
+* Timeline Components.
+* ======================
+* This is a set of timeline components that can be used to \\
+* display a list of events in a timeline format.
+*
+* @params TimelineProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+*
+* Linear Timeline:
+* @components.LinearTimeline(components.TimelineProps{
+*     Items: []components.TimeLineItem{
+*         {Value: "Android 5.0 Lollipop", Date: "2011"},
+*         {Value: "iPhone", Date: "2015"},
+*         // Add more items as needed
+*     },
+* })
+*
+* Vertical Timeline:
+* @components.VerticalTimeline(components.TimelineProps{
+*     Items: []components.TimeLineItem{
+*         {Value: "Apple Watch", Date: "2015"},
+*         {Value: "Apple TV", Date: "2007"},
+*         // Add more items as needed
+*     },
+* })
+*
+* Dot Timeline:
+* @components.DotTimeline(components.TimelineProps{
+*     Items: []components.TimeLineItem{
+*         {Value: "Apple Watch", Date: "2015"},
+*         {Value: "Apple TV", Date: "2007"},
+*         // Add more items as needed
+*     },
+* })
+ */
+
+templ LinearTimeline(props TimelineProps) {
+	<ul
+		id={ helper.UniqueKey() }
+		class="w-auto overflow-x-auto timeline"
+	>
+		for i, item := range orderByDate(props.Items) {
+			<li>
+				if i != 0 {
+					<hr class="bg-green-400 dark:bg-slate-600"/>
+				}
+				<div class="font-semibold timeline-start">{ item.Date }</div>
+				<div class="timeline-middle">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-black dark:text-white"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path></svg>
+				</div>
+				<div class="border-0 timeline-end timeline-box dark:bg-white dark:text-slate-700">{ item.Value }</div>
+				if i != len(props.Items)-1 {
+					<hr class="bg-green-400 dark:bg-slate-600"/>
+				}
+			</li>
+		}
+	</ul>
+}
+
+templ VerticalTimeline(props TimelineProps) {
+	<ul
+		id={ helper.UniqueKey() }
+		class="h-auto overflow-y-auto timeline timeline-vertical lg:timeline-horizontal"
+	>
+		for i, item := range orderByDate(props.Items) {
+			<li>
+				if i != 0 {
+					<hr class="bg-green-400 dark:bg-slate-600"/>
+				}
+				<div class="font-semibold timeline-start">{ item.Date }</div>
+				<div class="timeline-middle">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path></svg>
+				</div>
+				<div class="border-0 timeline-end timeline-box dark:bg-white dark:text-slate-700">{ item.Value }</div>
+				if i != len(props.Items)-1 {
+					<hr class="bg-green-400 dark:bg-slate-600"/>
+				}
+			</li>
+		}
+	</ul>
+}
+
+templ DotTimeline(props TimelineProps) {
+	<div class="w-[32rem]">
+		<ul class="flex flex-col w-full">
+			for i, item := range orderByDate(props.Items) {
+				<li key={ strconv.Itoa(i) } class="relative flex flex-col gap-2">
+					<span class="absolute left-0 grid justify-center transition-opacity duration-200 bg-transparent">
+						<span class="h-full w-0.5 bg-blue-gray-100 dark:bg-slate-100"></span>
+					</span>
+					<div class="flex items-center h-3 gap-4">
+						<span
+							class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-1.5 text-white"
+						></span>
+						<h6
+							class="block font-sans text-base antialiased font-semibold leading-none tracking-normal text-blue-gray-900"
+						>
+							{ item.Date }
+						</h6>
+					</div>
+					<div class="flex gap-4 pb-8">
+						<span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+						<div>
+							<p class="block font-sans text-sm antialiased font-normal leading-normal text-gray-600 dark:text-slate-400">
+								{ item.Value }
+							</p>
+						</div>
+					</div>
+				</li>
+			}
+		</ul>
+	</div>
+}

@@ -1,0 +1,101 @@
+package components
+
+// sanatize
+import (
+	"html/template"
+)
+
+type ModalProps struct {
+	Id           string
+	Name         string
+	ModalClass   string
+	TriggerLabel string
+	TriggerClass string
+	// Modal content.
+	Title   string
+	Content template.HTML
+}
+
+/**
+* Modal Component.
+* ======================
+* This is a modal component that can be used to display content in a modal.
+*
+* @params ModalProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+*
+* @components.Modal(ModalProps{
+*     Id: "modal_id",
+*     Name: "modal_name",
+*     ModalClass: "max-w-sm",
+*     TriggerLabel: "Open Modal",
+*     TriggerClass: "max-w-sm",
+*     Title: "Modal Title",
+*     Content: template.HTML(`Modal Content`),
+* })
+*
+* or
+*
+* @components.Modal(components.ModalProps{
+*   Id:           "modal",
+*   Name:         "test_modal",
+*   TriggerLabel: "Open this modal",
+*   Title:        "<div class='p-2'>This is a 23333 test title</div>",
+*   Content:      "<div class='p-2'>This is a test modal</div>",
+*   })
+*
+ */
+
+templ Modal(props ModalProps) {
+	<div
+		x-data="{ modalOpen: false }"
+		@keydown.escape.window="modalOpen = false"
+		class={ "relative z-50 w-auto h-auto" + props.ModalClass }
+	>
+		@PrimaryButton(ButtonProps{
+			Name:   "open_modal_button",
+			Type:   "button",
+			Text:   "Open Modal",
+			Class:  "max-w-sm",
+			AClick: "modalOpen=true",
+		})
+		<template x-teleport="body">
+			<div x-show="modalOpen" class="p-5 text-white fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen" x-cloak>
+				<div
+					x-show="modalOpen"
+					x-transition:enter="ease-out duration-300"
+					x-transition:enter-start="opacity-0"
+					x-transition:enter-end="opacity-100"
+					x-transition:leave="ease-in duration-300"
+					x-transition:leave-start="opacity-100"
+					x-transition:leave-end="opacity-0"
+					@click="modalOpen=false"
+					class="absolute inset-0 w-full h-full bg-gradient-to-br from-black/80 to-black/80"
+				></div>
+				<div
+					x-show="modalOpen"
+					x-trap.inert.noscroll="modalOpen"
+					x-transition:enter="ease-out duration-300"
+					x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+					x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+					x-transition:leave="ease-in duration-200"
+					x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+					x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+					class="text-slate-700 dark:text-slate-100 relative w-full px-4 py-3 card bg-slate-100 dark:bg-[#282828] sm:max-w-lg sm:rounded-lg"
+				>
+					<div class="flex items-center justify-between pb-2">
+						<h3 class="text-lg font-semibold text-slate-700 dark:text-slate-100">
+							@templ.Raw(props.Title)
+						</h3>
+					</div>
+					<div class="text-slate-700 dark:text-slate-100">
+						@templ.Raw(props.Content)
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+}

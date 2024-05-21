@@ -1,0 +1,44 @@
+package components
+
+import (
+	"strconv"
+)
+
+type CountUpComponentProps struct {
+	From  int
+	To    int
+	Class string
+}
+
+/**
+* Count Up Component.
+* Gradually counts up FROM to TO.
+*
+* @params CountUpComponentProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+* @components.CountUp(components.CountUpComponentProps{
+*	From: 0,
+*	To: 100,
+*	Class: "any custom css"
+* })
+ */
+
+templ CountUp(props CountUpComponentProps) {
+	<div
+		id={ "counter-" + components.UniqueKey() }
+		x-data={ "{ count: " + strconv.Itoa(props.From) + ", target: " + strconv.Itoa(props.To) + "}" }
+		x-init="intervalId = setInterval(() => {
+            if (count < target) {
+            count++;
+            } else {
+            clearInterval(intervalId); // Clear the interval when target is reached
+            }
+        }, 50)"
+		class={ props.Class }
+	>
+		<h1 x-text="count"></h1>
+	</div>
+}

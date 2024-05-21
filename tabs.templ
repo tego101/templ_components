@@ -1,0 +1,111 @@
+package components
+
+type TabItem struct {
+	Title           string
+	Description     string
+	ContentTemplate templ.Component
+	Content         string
+}
+
+type TabProps struct {
+	Label    string
+	Icon     string
+	Id       string
+	Class    string
+	Disabled bool
+	TabItems []TabItem
+}
+
+/**
+ * Tab Component.
+ * ======================
+ * This is a tab component that can be used to display a list of tabs.
+ *
+ * @params TabProps
+ * @author: [Your Name]
+ * @license: MIT
+ *
+ * Usage:
+ *
+ * Simple Tab:
+ * @components.Tab(components.TabProps{
+ *     Label: "Tab 1",
+ *     Icon: "icon",
+ *     Id: "tab-1",
+ *     TabItems: []components.TabItem{
+ *         {Title: "Tab 1 Item 1", Description: "Description 1", ContentTemplate: templ.Component, Content: "Content 1"},
+ *         {Title: "Tab 1 Item 2", Description: "Description 2", ContentTemplate: templ.Component, Content: "Content 2"},
+ *     },
+ * })
+ *
+ */
+
+templ Tabs(props []*TabProps) {
+	<div
+		x-data="{
+                    tabSelected: 'Login',
+                    tabId: $id('tabs'),
+                    tabButtonClicked(tabButton){
+                        this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
+                        this.tabRepositionMarker(tabButton);
+                    },
+                    tabRepositionMarker(tabButton){
+                        this.$refs.tabMarker.style.width=tabButton.offsetWidth + 'px';
+                        this.$refs.tabMarker.style.height=tabButton.offsetHeight + 'px';
+                        this.$refs.tabMarker.style.left=tabButton.offsetLeft + 'px';
+                    },
+                    tabContentActive(tabContent){
+                        return this.tabSelected == tabContent.id.replace(this.tabId + '-content-', '');
+                    }
+                }"
+		x-init="tabRepositionMarker($refs.tabButtons.firstElementChild);"
+		class="relative w-full"
+	>
+		<div id="authForm" x-ref="tabButtons" class="relative inline-grid items-center justify-center w-full grid-cols-2 gap-2 p-1 text-gray-500 select-none bg-black/60 rounded-xl">
+			for _, tab := range props {
+				@ButtonLink(ButtonProps{
+					Id:         tab.Label,
+					Type:       "button",
+					Text:       tab.Label,
+					SuffixIcon: tab.Icon,
+					Class:      "border-none focus:border-none active:border-none",
+					AClick:     "tabButtonClicked($el);",
+				})
+			}
+			<div x-ref="tabMarker" class="absolute left-0 z-10 w-1/2 h-full duration-300 ease-out" x-cloak><div class="w-full h-full border-2 border-[#135053] rounded-md shadow-sm"></div></div>
+		</div>
+		for _, tab := range props {
+			for _, item := range tab.TabItems {
+				<div
+					id={ tab.Id }
+					class="relative w-full mt-2 content text-balance text-slate-500 dark:text-[#f0f0f0]"
+				>
+					<div id={ "'" + tab.Label + "-content')" } x-show={ "tabContentActive(" + tab.Label + ")" } class="relative">
+						<div class="border-none shadow-sm bg-card">
+							if item.Title != "" || item.Description != "" {
+								<div class="flex flex-col space-y-1.5 p-6">
+									if item.Title != "" {
+										<h3 class="font-semibold leading-none tracking-tight lg:text-xl">{ item.Title }</h3>
+									}
+									if item.Description != "" {
+										<p class="text-sm text-balance text-slate-500 dark:text-[#f0f0f0]">Make changes to your account here. Click save when you're done.</p>
+									}
+								</div>
+							}
+							if item.ContentTemplate != nil {
+								<div class="p-2 pt-0 space-y-2">
+									@templ.Component(item.ContentTemplate)
+								</div>
+							}
+							if item.Content != "" {
+								<div class="p-4 pt-0 space-y-2">
+									item.Content
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+}

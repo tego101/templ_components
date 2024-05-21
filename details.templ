@@ -1,0 +1,73 @@
+package components
+
+import (
+	"strconv"
+)
+
+type DetailListItem struct {
+	Order int
+	Label string
+	Value string
+}
+type DetailListProps struct {
+	Title       string
+	Description string
+	Details     []DetailListItem
+}
+
+/**
+* Detail List Component.
+* ======================
+* Displays a list of details in a structured way.
+*
+* @params DetailListProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+* @components.DetailList(components.DetailListProps{
+*    Title: "Example Title",
+*    Description: "Example description",
+*    Details: []components.DetailListItem{
+*        { Order: 1, Label: "First Detail", Value: "Detail Value 1" },
+*        { Order: 2, Label: "Second Detail", Value: "Detail Value 2" },
+*        { Order: 3, Label: "Third Detail", Value: "Detail Value 3" },
+*    },
+* })
+ */
+
+templ DetailList(props DetailListProps) {
+	<div
+		x-cloak
+		x-data="{ isVisible: false }"
+		x-init="setTimeout(() => isVisible = true, 300)"
+		x-show="isVisible"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0"
+		x-transition:enter-end="opacity-100"
+		class="flow-root pb-2 border-b-2 border-dashed border-slate-100 dark:border-slate-900"
+	>
+		if props.Title != "" {
+			<h3 class="text-xl font-semibold text-gray-900 dark:text-slate-200">
+				@templ.Raw(props.Title)
+			</h3>
+		}
+		if props.Description != "" {
+			<p class="mb-2 text-gray-500 dark:text-slate-400">
+				@templ.Raw(props.Description)
+			</p>
+		}
+		<dl class="-my-3 text-sm divide-y divide-gray-100 dark:divide-slate-800">
+			for i, detail := range props.Details {
+				<div key={ strconv.Itoa(i) } class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+					<dt class="font-medium text-gray-900 dark:text-slate-200">
+						@templ.Raw(detail.Label)
+					</dt>
+					<dd class="text-gray-700 dark:text-slate-200 sm:col-span-2">
+						@templ.Raw(detail.Value)
+					</dd>
+				</div>
+			}
+		</dl>
+	</div>
+}

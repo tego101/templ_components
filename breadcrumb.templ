@@ -1,0 +1,57 @@
+package components
+
+import "strconv"
+
+type BreadCrumbsProps struct {
+	Links []BreadCrumbItem
+}
+
+type BreadCrumbItem struct {
+	Name string
+	Link string
+}
+
+/**
+* Bread Crumbs Component.
+* ======================
+* Displays styled breadcrumbs array.
+*
+* @params BreadCrumbsProps
+* @author: github.com/tego101 <-> x.com/tegodotdev
+* @license: MIT
+*
+* Usage:
+* ======
+* @components.BreadCrumbs(BreadCrumbsProps{
+*	Links: []components.BreadCrumbItem{
+*		{Name: "Home", Link: "/"},
+*		{Name: "Blog", Link: "/blog"},
+*		{Name: "Post", Link: "/blog/post"},
+*	},
+* })
+*
+ */
+
+templ BreadCrumbs(props BreadCrumbsProps) {
+	<nav aria-label="breadcrumb" class="w-max bg-slate-100 dark:bg-white dark:text-slate-700">
+		<ol class="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-blue-gray-50 bg-opacity-60">
+			for i, link := range props.Links {
+				<li
+					key={ strconv.Itoa(i) }
+					if i == len(props.Links)-1 {
+						class="flex items-center font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900"
+					} else {
+						class="flex items-center font-sans text-sm antialiased font-normal leading-normal transition-colors duration-300 cursor-pointer text-blue-gray-900 hover:text-light-blue-500"
+					}
+				>
+					<a href={ templ.SafeURL(link.Link) }>{ link.Name }</a>
+					if i != len(props.Links)-1 {
+						<span
+							class="mx-2 font-sans text-sm antialiased font-normal leading-normal pointer-events-none select-none text-blue-gray-500"
+						>/</span>
+					}
+				</li>
+			}
+		</ol>
+	</nav>
+}

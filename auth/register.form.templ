@@ -1,0 +1,103 @@
+package auth
+
+templ RegisterForm() {
+	<form
+		id="authForm"
+		class="flex flex-col space-y-2 fade-in-div"
+		hx-post="/join"
+		hx-ext="json-enc"
+		hx-target="this"
+		hx-swap="innerHTML transition:true show:top"
+		hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0 scale-90"
+		x-transition:enter-end="opacity-100 scale-100"
+		x-transition:leave="transition ease-in duration-300"
+		x-transition:leave-start="opacity-100 scale-100"
+		x-transition:leave-end="opacity-0 scale-90"
+	>
+		<div class="flex flex-col my-4 space-y-2 text-start">
+			<h1 class="text-4xl font-bold text-slate-700 dark:text-white">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg>
+				Join
+			</h1>
+		</div>
+		<div id="authing" class="htmx-indicator">
+			Registering...
+		</div>
+		<div class="flex flex-col mb-4 space-y-2" hx-swap="outerHTML" hx-target="#authForm" hx-indicator="#authing">
+			<div class="flex flex-row items-center justify-between space-x-2">
+				@components.Input(components.InputProps{
+					Id:          "first_name",
+					Type:        "text",
+					Name:        "First Name",
+					Placeholder: "Dwight",
+					Class:       "w-full",
+					Required:    true,
+				})
+				@components.Input(components.InputProps{
+					Id:          "last_name",
+					Type:        "text",
+					Name:        "Last Name",
+					Placeholder: "Schrute",
+					Class:       "w-full",
+					Required:    true,
+				})
+			</div>
+			@components.Input(components.InputProps{
+				Type:        "email",
+				Name:        "e-mail",
+				Placeholder: "beetfarmer97@dundermifflin.com",
+				HelperText:  "Your e-mail address and other sensitive data will be encrypted. We will never share your email with anyone else.",
+				Class:       "w-full",
+				Required:    true,
+			})
+			@components.CheckBox(components.CheckBoxProps{
+				Id:         "agree_tos",
+				Name:       "agree_tos",
+				Label:      "I Agree to the terms and services",
+				Checked:    false,
+				IsDisabled: false,
+				IsRequired: true,
+			})
+		</div>
+		@components.PrimaryButton(components.ButtonProps{
+			Text:       "Continue",
+			Class:      "w-full mt-4",
+			Type:       "submit",
+			SuffixIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>`,
+		})
+		<div class="text-sm divider">OR</div>
+		<div class="flex flex-col w-full space-y-4">
+			@components.PrimaryButton(components.ButtonProps{
+				Text:       "Continue with Google",
+				Class:      "w-full hidden",
+				Type:       "button",
+				IsDisabled: true,
+				SuffixIcon: `
+														<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="currentColor"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" viewBox="0 0 64 64">
+															<path d="M30.997,28.126l20.738,0.029C53.545,36.731,50.236,54,30.997,54C18.844,54,8.992,44.15,8.992,32s9.852-22,22.005-22	c5.708,0,10.907,2.173,14.817,5.736l-6.192,6.19c-2.321-1.988-5.329-3.196-8.625-3.196c-7.33,0-13.273,5.941-13.273,13.27	s5.942,13.27,13.273,13.27c6.156,0,10.412-3.644,11.978-8.738H30.997V28.126z"></path>
+														</svg>
+													`,
+			})
+			@components.PrimaryButton(components.ButtonProps{
+				Text:       "Continue with Apple",
+				Class:      "w-full hidden",
+				Type:       "button",
+				IsDisabled: true,
+				SuffixIcon: `
+														<svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+															<path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47c-1.34.03-1.77-.79-3.29-.79c-1.53 0-2 .77-3.27.82c-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51c1.28-.02 2.5.87 3.29.87c.78 0 2.26-1.07 3.81-.91c.65.03 2.47.26 3.64 1.98c-.09.06-2.17 1.28-2.15 3.81c.03 3.02 2.65 4.03 2.68 4.04c-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5c.13 1.17-.34 2.35-1.04 3.19c-.69.85-1.83 1.51-2.95 1.42c-.15-1.15.41-2.35 1.05-3.11"/>
+														</svg>
+													`,
+			})
+			@components.ButtonLink(components.ButtonProps{
+				Text:  "Already have an account? Login",
+				Class: "w-full",
+				Href:  "/auth",
+				SuffixIcon: `
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 lucide lucide-undo-2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>							`,
+			})
+		</div>
+	</form>
+}
