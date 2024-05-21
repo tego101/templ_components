@@ -24,6 +24,8 @@ func GenerateUniqueKey(id string) string {
 - **card.templ** - Card component.
 - **checkbox.templ** - Checkbox input.
 - **chip.templ** - Chip component.
+\
+![count up component](https://github.com/tego101/templ_components/blob/main/images/cookie.png)
 - **cookies-warning.templ** - Cookies warning message.
 \
 ![count up component](https://github.com/tego101/templ_components/blob/main/images/count-up.gif)
