@@ -1,6 +1,10 @@
 # Free Reusable Templ Components
 ✅ A collection of reusable UI components built with Golang's templ, TailwindCSS, Daisy UI, and Alpine.js.
 
+# Templ
+### A language for writing HTML user interfaces in Go.
+[https://github.com/a-h/templ](https://github.com/a-h/templ)
+
 ## util.go
 
 util.go includes a helper GenerateUniqueKey. I used this dead simple helper to generate a unique ID for most all components.
